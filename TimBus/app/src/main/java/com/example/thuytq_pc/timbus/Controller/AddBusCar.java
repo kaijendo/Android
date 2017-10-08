@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.thuytq_pc.timbus.Model.BusCar;
 import com.example.thuytq_pc.timbus.Model.DataService;
@@ -39,8 +40,11 @@ public class AddBusCar extends Activity {
             public void onClick(View view) {
                 BusCar newBusCar = new BusCar(txtName.getText().toString(),txtChuyenDen.getText().toString(), txtChuyenDi.getText().toString());
                 DataService.ourInstance.addNew(newBusCar);
+                Intent intent = new Intent(AddBusCar.this, MainActivity.class);
+                intent.putExtra("ADD",DataService.ourInstance.busCars);
+                setResult(100,intent);
+                finish();
             }
         });
-
     }
 }

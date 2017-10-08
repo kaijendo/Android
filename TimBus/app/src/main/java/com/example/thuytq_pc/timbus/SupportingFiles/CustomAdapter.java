@@ -1,6 +1,8 @@
 package com.example.thuytq_pc.timbus.SupportingFiles;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.thuytq_pc.timbus.Model.BusCar;
 import com.example.thuytq_pc.timbus.Model.DataService;
@@ -68,6 +71,14 @@ public class CustomAdapter extends BaseAdapter {
         viewHolder.lblName.setText(busCar.getName());
         viewHolder.lblChuyenDen.setText(busCar.getChuyenDen());
         viewHolder.lblChuyenDi.setText(busCar.getChuyenDi());
+
+        rowView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                diaLog("Are you sure to delete item "+data.get(position).name+ " at "+position+ " ?",position);
+                return false;
+            }
+        });
         return rowView;
     }
     static class ViewHolder {
@@ -76,5 +87,28 @@ public class CustomAdapter extends BaseAdapter {
         TextView lblChuyenDen;
         ImageView imgAvatar;
         ImageButton btnFav;
+    }
+    void diaLog(String title, final int index) {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(title);
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(
+                "Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DataService.ourInstance.removeAt(index);
+                        notifyDataSetChanged();
+                    }
+                });
+        builder1.setNegativeButton(
+                "No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                }
+        );
+        AlertDialog alertDialog = builder1.create();
+        alertDialog.show();
     }
 }

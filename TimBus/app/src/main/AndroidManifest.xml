@@ -20,6 +20,9 @@
         <activity
             android:name=".Controller.AddBusCar"
             android:label="Add New"  />
+        <activity
+            android:name=".Controller.DetailsBusCar"
+            android:label="Details"  />
     </application>
 
 </manifest>
